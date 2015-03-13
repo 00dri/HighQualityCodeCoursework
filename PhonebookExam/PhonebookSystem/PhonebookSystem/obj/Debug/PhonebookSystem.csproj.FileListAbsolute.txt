@@ -1,0 +1,8 @@
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\PhonebookExam\PhonebookSystem\PhonebookSystem\bin\Debug\PhonebookSystem.exe.config
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\PhonebookExam\PhonebookSystem\PhonebookSystem\bin\Debug\PhonebookSystem.exe
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\PhonebookExam\PhonebookSystem\PhonebookSystem\bin\Debug\PhonebookSystem.pdb
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\PhonebookExam\PhonebookSystem\PhonebookSystem\bin\Debug\PowerCollections.dll
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\PhonebookExam\PhonebookSystem\PhonebookSystem\bin\Debug\PowerCollections.xml
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\PhonebookExam\PhonebookSystem\PhonebookSystem\obj\Debug\PhonebookSystem.csprojResolveAssemblyReference.cache
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\PhonebookExam\PhonebookSystem\PhonebookSystem\obj\Debug\PhonebookSystem.exe
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\PhonebookExam\PhonebookSystem\PhonebookSystem\obj\Debug\PhonebookSystem.pdb
