@@ -1,0 +1,7 @@
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\TheatreLab\Huy-Phuong\obj\Debug\TheatreSystem.csprojResolveAssemblyReference.cache
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\TheatreLab\Huy-Phuong\bin\Debug\TheatreSystem.exe
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\TheatreLab\Huy-Phuong\bin\Debug\TheatreSystem.pdb
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\TheatreLab\Huy-Phuong\obj\Debug\TheatreSystem.exe
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\TheatreLab\Huy-Phuong\obj\Debug\TheatreSystem.pdb
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\TheatreLab\TheatreSystem\obj\Debug\TheatreSystem.exe
+C:\Users\aI\Documents\GitHub\HighQualityCodeCoursework\TheatreLab\TheatreSystem\obj\Debug\TheatreSystem.csprojResolveAssemblyReference.cache

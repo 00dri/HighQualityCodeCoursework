@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huy-Phuong", "Huy-Phuong\Huy-Phuong.csproj", "{94F3D43F-0B18-46B3-9017-7D3B247756F1}"
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheatreSystem", "TheatreSystem\TheatreSystem.csproj", "{94F3D43F-0B18-46B3-9017-7D3B247756F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
