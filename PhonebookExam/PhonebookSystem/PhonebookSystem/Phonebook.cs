@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using Contracts;
@@ -9,6 +10,7 @@
     internal class Phonebook
     {
         private const string DefaultCountryCode = "+359";
+        private const char PlusSign = '+';
 
         private static readonly IPhonebookRepository PhonebookRepository = new SlowPhonebookRepository();
 
@@ -67,130 +69,84 @@
 
         private static void ExecuteCommand(string commandName, string[] commandParams)
         {
-            if (commandName == "Cmd1") 
+            switch (commandName)
             {
-                var str0 = commandParams[0];
-                var str1 = commandParams.Skip(1).ToList();
-                for (var i = 0; i < str1.Count; i++)
+                case "AddPhone":
                 {
-                    str1[i] = Conv(str1[i]);
-                }
+                    var name = commandParams[0];
+                    var phoneNumbers = commandParams.Skip(1).ToList();
+                    var result = ExecuteAddPhoneCommand(name, phoneNumbers);
 
-                var flag = PhonebookRepository.AddPhone(str0, str1);
-                if (flag)
-                {
-                    Print("Phone entry created.");
+                    Print(result);
                 }
-                else
+                    break;
+                case "Cmd2":
                 {
-                    Print("Phone entry merged");
+                    var oldPhoneNumber = commandParams[0];          
+                    var newPhoneNUmber = commandParams[1];
+
+                    Print(PhonebookRepository.ChangePhone(
+                        ConvetToCanonicalForm(oldPhoneNumber), 
+                        ConvetToCanonicalForm(newPhoneNUmber)) + " numbers changed");
                 }
-            }
-            else if (commandName == "Cmd2") 
-            {
-                Print(PhonebookRepository.ChangePhone(Conv(commandParams[0]), Conv(commandParams[1])) + " numbers changed");
-            }
-            else 
-            {
-                try
+                    break;
+                default:
                 {
-                    IEnumerable<PhonebookEntry> entries = 
-                        PhonebookRepository.ListEntries(int.Parse(commandParams[0]), int.Parse(commandParams[1]));
-                    foreach (var entry in entries)
+                    try
                     {
-                        Print(entry.ToString());
+                        IEnumerable<PhonebookEntry> entries =
+                            PhonebookRepository.ListEntries(int.Parse(commandParams[0]), int.Parse(commandParams[1]));
+                        foreach (var entry in entries)
+                        {
+                            Print(entry.ToString());
+                        }
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        Print("Invalid range");
                     }
                 }
-                catch (ArgumentOutOfRangeException)
-                {
-                    Print("Invalid range");
-                }
+                    break;
             }
         }
 
-        private static string Conv(string num)
+        private static string ExecuteAddPhoneCommand(string name, IList<string> phoneNumber)
         {
-            var sb = new StringBuilder();
-            for (var i = 0; i <= Output.Length; i++)
+            for (var i = 0; i < phoneNumber.Count; i++)
             {
-                sb.Clear();
-                foreach (var ch in num)
-                {
-                    if (char.IsDigit(ch) || (ch == '+'))
-                    {
-                        sb.Append(ch);
-                    }
-                }
+                phoneNumber[i] = ConvetToCanonicalForm(phoneNumber[i]);
+            }
 
-                if (sb.Length >= 2 && sb[0] == '0' && sb[1] == '0')
-                {
-                    sb.Remove(0, 1);
-                    sb[0] = '+';
-                }
+            var isNewEntry = PhonebookRepository.AddPhone(name, phoneNumber);
+            return isNewEntry ? "Phone entry created" : "Phone entry merged";
+        }
 
-                while (sb.Length > 0 && sb[0] == '0')
-                {
-                    sb.Remove(0, 1);
-                }
+        private static string ConvetToCanonicalForm(string phoneNumber)
+        {
+            var digitsAndPlusPhoneNumber = GetDigitsAndPlus(phoneNumber);
+            var leadinghZerosRemovedPhoneNumber = digitsAndPlusPhoneNumber.TrimStart('0');
+            var canonicalFormPhoneNumber = leadinghZerosRemovedPhoneNumber;
 
-                if (sb.Length > 0 && sb[0] != '+')
-                {
-                    sb.Insert(0, DefaultCountryCode);
-                }
+            if (!canonicalFormPhoneNumber.StartsWith(PlusSign.ToString(CultureInfo.InvariantCulture)))
+            {
+                return string.Format("{0}{1}", DefaultCountryCode, canonicalFormPhoneNumber);
+            }
 
-                sb.Clear();
+            return canonicalFormPhoneNumber;
+        }
 
-                foreach (var ch in num)
+        private static string GetDigitsAndPlus(string phoneNumber)
+        {
+            var result = new StringBuilder();
+            foreach (var symbol in phoneNumber)
+            {
+                if (char.IsDigit(symbol) || symbol == PlusSign)
                 {
-                    if (char.IsDigit(ch) || (ch == '+'))
-                    {
-                        sb.Append(ch);
-                    }
-                }
-
-                if (sb.Length >= 2 && sb[0] == '0' && sb[1] == '0')
-                {
-                    sb.Remove(0, 1);
-                    sb[0] = '+';
-                }
-
-                while (sb.Length > 0 && sb[0] == '0')
-                {
-                    sb.Remove(0, 1);
-                }
-
-                if (sb.Length > 0 && sb[0] != '+')
-                {
-                    sb.Insert(0, DefaultCountryCode);
-                }
-
-                sb.Clear();
-                foreach (var ch in num)
-                {
-                    if (char.IsDigit(ch) || (ch == '+'))
-                    {
-                        sb.Append(ch);
-                    }
-                }
-
-                if (sb.Length >= 2 && sb[0] == '0' && sb[1] == '0')
-                {
-                    sb.Remove(0, 1);
-                    sb[0] = '+';
-                }
-
-                while (sb.Length > 0 && sb[0] == '0')
-                {
-                    sb.Remove(0, 1);
-                }
-
-                if (sb.Length > 0 && sb[0] != '+')
-                {
-                    sb.Insert(0, DefaultCountryCode);
+                    result.Append(symbol);
                 }
             }
 
-            return sb.ToString();
+            return result.ToString();
         }
 
         private static void Print(string text)
