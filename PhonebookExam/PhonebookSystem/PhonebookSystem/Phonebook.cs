@@ -11,6 +11,8 @@
     {
         private const string DefaultCountryCode = "+359";
         private const char PlusSign = '+';
+        private const string ChangePhoneCommand = "ChangePhone";
+        private const string AddPhoneCommand = "AddPhone";
 
         private static readonly IPhonebookRepository PhonebookRepository = new SlowPhonebookRepository();
 
@@ -67,29 +69,29 @@
             Console.Write(Output);
         }
 
-        private static void ExecuteCommand(string commandName, string[] commandParams)
+        private static string ExecuteCommand(string commandName, string[] commandParams)
         {
+            string commandResult;
             switch (commandName)
             {
-                case "AddPhone":
+                case AddPhoneCommand:
                 {
                     var name = commandParams[0];
                     var phoneNumbers = commandParams.Skip(1).ToList();
-                    var result = ExecuteAddPhoneCommand(name, phoneNumbers);
+                    commandResult = ExecuteAddPhoneCommand(name, phoneNumbers);
 
-                    Print(result);
+                    return commandResult;
                 }
                     break;
-                case "Cmd2":
+                case ChangePhoneCommand:
                 {
-                    var oldPhoneNumber = commandParams[0];          
-                    var newPhoneNUmber = commandParams[1];
+                    var oldPhoneNumber = ConvetToCanonicalForm(commandParams[0]);          
+                    var newPhoneNumber = ConvetToCanonicalForm(commandParams[1]);
 
-                    Print(PhonebookRepository.ChangePhone(
-                        ConvetToCanonicalForm(oldPhoneNumber), 
-                        ConvetToCanonicalForm(newPhoneNUmber)) + " numbers changed");
+                    var entriesChangedCount = PhonebookRepository.ChangePhone(oldPhoneNumber, newPhoneNumber);
+                    commandResult = string.Format("{0} numbers changed", entriesChangedCount);
+                    return commandResult;
                 }
-                    break;
                 default:
                 {
                     try
@@ -98,16 +100,17 @@
                             PhonebookRepository.ListEntries(int.Parse(commandParams[0]), int.Parse(commandParams[1]));
                         foreach (var entry in entries)
                         {
-                            Print(entry.ToString());
+                            return entry.ToString();
                         }
                     }
                     catch (ArgumentOutOfRangeException)
                     {
-                        Print("Invalid range");
+                        return "Invalid range";
                     }
                 }
                     break;
             }
+            return;
         }
 
         private static string ExecuteAddPhoneCommand(string name, IList<string> phoneNumber)
@@ -149,7 +152,7 @@
             return result.ToString();
         }
 
-        private static void Print(string text)
+        private static void AppendOutput(string text)
         {
             Output.AppendLine(text);
         }
